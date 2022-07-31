@@ -48,13 +48,15 @@ export default function MainPage() {
         </div>
 
         <ol className="todo">
-          {items.map((item, index) => {
+          {items.map((item) => {
             return (
-              <li key={item.id}>
-                <input type="checkbox" name="" id="" />
-                {item.value}
-                <button onClick={() => deleteItem(item.id)}>❌</button>
-              </li>
+              <div className="complete">
+                <li key={item.id}>
+                  <input type="checkbox" name="" id="" />
+                  {item.value}
+                  <button onClick={() => deleteItem(item.id)}>❌</button>
+                </li>
+              </div>
             );
           })}
         </ol>
