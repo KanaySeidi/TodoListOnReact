@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function MainPage() {
   const [newItem, setNewItem] = useState("");
@@ -11,13 +11,17 @@ export default function MainPage() {
     const item = {
       value: newItem,
       id: Math.floor(Math.random() * 1000),
+      checked: false,
+      important: false,
     };
-    let itemLS = JSON.parse(localStorage.getItem("item.value"));
-    localStorage.setItem("item", JSON.stringify(itemLS));
 
     setItems((oldList) => [...oldList, item]);
     setNewItem("");
   }
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
   function deleteItem(id) {
     const itemsArr = items.filter((item) => item.id !== id);
     setItems(itemsArr);
@@ -25,27 +29,36 @@ export default function MainPage() {
 
   return (
     <div>
-      <h1>Todo List App</h1>
+      <div className="container">
+        <div className="todo_list">
+          <h1>Todo List App</h1>
+          <div className="create_new_todo">
+            <input
+              className="inp_add"
+              type="text"
+              placeholder="Введите задачу"
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+            />
 
-      <input
-        type="text"
-        placeholder="Введите задачу"
-        value={newItem}
-        onChange={(e) => setNewItem(e.target.value)}
-      />
+            <button className="btn__add" onClick={() => addItem()}>
+              Добавить
+            </button>
+          </div>
+        </div>
 
-      <button onClick={() => addItem()}>Добавить</button>
-
-      <ol>
-        {items.map((item) => {
-          return (
-            <li key={item.id}>
-              {item.value}
-              <button onClick={() => deleteItem(item.id)}>❌</button>
-            </li>
-          );
-        })}
-      </ol>
+        <ol className="todo">
+          {items.map((item, index) => {
+            return (
+              <li key={item.id}>
+                <input type="checkbox" name="" id="" />
+                {item.value}
+                <button onClick={() => deleteItem(item.id)}>❌</button>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
   );
 }
